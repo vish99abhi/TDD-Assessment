@@ -6,9 +6,11 @@ function stringCalculator(numbers) {
   
     let delimiter = ",";
     if (numbers.startsWith("//")) {
-      const delimiterEndIndex = numbers.indexOf("\n");
-      delimiter = numbers.substring(2, delimiterEndIndex);
-      numbers = numbers.substring(delimiterEndIndex + 1);
+        const delimiterEndIndex = numbers.indexOf("\n");
+        const delimiterString = numbers.substring(2, delimiterEndIndex);
+        const customDelimiter = delimiterString.replace("[", "").replace("]", "");
+        delimiter = escapeRegExp(customDelimiter);
+        numbers = numbers.substring(delimiterEndIndex + 1);
     }
   
     const numberArray = numbers.split(new RegExp(`[${delimiter}\n]`));
@@ -17,9 +19,12 @@ function stringCalculator(numbers) {
   
     for (let i = 0; i < numberArray.length; i++) {
       const number = parseInt(numberArray[i]);
+      if (isNaN(number)) {
+        continue;
+      }
       if (number < 0) {
         negativeNumbers.push(number);
-      } else {
+      } else if (number <= 1000) {
         sum += number;
       }
     }
@@ -29,7 +34,11 @@ function stringCalculator(numbers) {
     }
   
     return sum;
-  }
+}
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 console.log(stringCalculator("")) // Output: 0
 console.log(stringCalculator("1")) // Output: 1
