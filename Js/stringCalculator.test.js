@@ -50,4 +50,16 @@ describe('string calculator', () => {
     expect(add("//[***]\n1***2***3")).toBe(6);
     expect(add("//[---]\n5---10---15---20")).toBe(50);
   });
+
+ test('should throw an exception for negative numbers and display them in the error message', () => {
+    const errorMsg1 = "Negative numbers not allowed: -1,-5";
+    const errorMsg2 = "Negative numbers not allowed: -10,-20";
+    expect(() => add("-1,2,-5")).toThrowError(errorMsg1);
+    expect(() => add("//;\n-10;-20;30")).toThrowError(errorMsg2);
+  });
+
+  test('should handle multiple delimiters wrapped in square brackets and return the sum accordingly', () => {
+    expect(add("//[*][%]\n1*2%3")).toBe(6);
+    expect(add("//[=][+]\n5=10+15+20")).toBe(50);
+  });
 });

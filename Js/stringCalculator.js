@@ -1,3 +1,4 @@
+const escapeRegExp = require('./helper');
 
 function stringCalculator(numbers) {
     if (numbers === "") {
@@ -34,10 +35,6 @@ function stringCalculator(numbers) {
     }
   
     return sum;
-}
-
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 console.log(stringCalculator("")) // Output: 0
